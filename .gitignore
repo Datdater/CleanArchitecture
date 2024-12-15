@@ -1,0 +1,54 @@
+# Build Folders
+bin/
+obj/
+
+# User-Specific Files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Auto-generated Files
+*.Generated.cs
+*.g.cs
+*.g.i.cs
+
+# Logs
+*.log
+*.tlog
+
+# Visual Studio
+.vscode/
+.vs/
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+
+# Configuration Files
+appsettings*.json
+appsettings*.Development.json
+
+# Dependency Files
+*.dll
+*.exe
+*.pdb
+
+# OS-Specific Files
+.DS_Store
+Thumbs.db
+
+# Coverage and Testing
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Others
+*.bak
+*.swp
