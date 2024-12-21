@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using Entities;
-using Infrastructure.DataContext;
+using Infrastructures.SQLServer.DataContext;
+using UseCase.Commons;
 
-namespace Infrastructure.MapperProfile;
+namespace Infrastructures.MapperProfile;
 
 public class MapperEntitiesToDto: AutoMapper.Profile
 {
     public MapperEntitiesToDto()
     {
-        CreateMap<Course, CourseEntity >();
-        CreateMap<Student, StudentEntity>();
+        CreateMap<Student, StudentEntity>().ReverseMap();
+        CreateMap<Infrastructures.SQLServer.DataContext.StudentEntity, Entities.Student>().ReverseMap();
+        CreateMap(typeof(Pagination<>), typeof(Pagination<>)); // Generic pagination support
     }
 }

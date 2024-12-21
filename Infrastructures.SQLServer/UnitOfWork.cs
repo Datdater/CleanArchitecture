@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Infrastructure;
-using Infrastructure.DataContext;
 using Infrastructures.SQLServer.DataContext;
 using Microsoft.EntityFrameworkCore;
+using UseCase.Repositories;
 using UseCases.GenericRepository;
 using UseCases.UnitOfWork;
 using Course = Entities.Course;
@@ -15,15 +14,16 @@ public class UnitOfWork: IUnitOfWork
     private readonly SchoolContext _context;
     private readonly IMapper _mapper;
 
-    public IGenericRepository<Student> Students { get; }
-    public IGenericRepository<Course> Courses { get; }
-    public UnitOfWork(SchoolContext context)
+    public IStudentRepository StudentsRepository { get; }
+
+    public UnitOfWork(SchoolContext context, IStudentRepository studentRepository, IMapper mapper)
     {
         _context = context;
-
-        Students = new GenericRepository<Student, StudentEntity>(_context, _mapper);
-        Courses = new GenericRepository<Course, CourseEntity>(_context, _mapper);
+        _mapper = mapper;
+        StudentsRepository = studentRepository;
     }
+
+
     public async Task<int> SaveAsync()
     {
         return await _context.SaveChangesAsync();

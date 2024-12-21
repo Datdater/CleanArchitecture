@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.DataContext;
+﻿namespace Infrastructures.DataContext;
 
 public class CourseEntity
 {

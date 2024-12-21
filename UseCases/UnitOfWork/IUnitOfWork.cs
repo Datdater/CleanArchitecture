@@ -1,4 +1,5 @@
 ﻿using Entities;
+using UseCase.Repositories;
 using UseCases.GenericRepository;
 
 namespace UseCases.UnitOfWork;
@@ -6,8 +7,7 @@ namespace UseCases.UnitOfWork;
 public interface IUnitOfWork 
 {
     // Example: Define repositories as properties
-    IGenericRepository<Student> Students { get; }
-    IGenericRepository<Course> Courses { get; }
+    IStudentRepository StudentsRepository { get; }
 
     // Commit changes to the database
     Task<int> SaveAsync();

@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
-using Infrastructure.DataContext;
+using Entities;
 using Infrastructures.SQLServer.DataContext;
 using Microsoft.EntityFrameworkCore;
+using UseCase.Commons;
 using UseCases.GenericRepository;
 
 namespace Infrastructures.SQLServer;
@@ -22,35 +23,6 @@ public class GenericRepository<TModel, TEntity> : IGenericRepository<TModel>
         _mapper = mapper;
     }
     
-
-    public async Task<IEnumerable<TModel>> GetAsync(
-        Expression<Func<TModel, bool>> filter = null,
-        Func<IQueryable<TModel>, IOrderedQueryable<TModel>> orderBy = null,
-        string includeProperties = "")
-    {
-        IQueryable<TEntity> query = _dbSet;
-
-        foreach (var includeProperty in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
-        {
-            query = query.Include(includeProperty);
-        }
-
-        var entityFilter = MapFilter(filter);
-        if (entityFilter != null)
-        {
-            query = query.Where(entityFilter);
-        }
-
-        if (orderBy != null)
-        {
-            var modelQuery = MapQuery(query);
-            return await Task.FromResult(orderBy(modelQuery).ToList()); // Use `ToListAsync()` if mapping supports async.
-        }
-
-        return await MapQuery(query).ToListAsync();
-    }
-
-
     public async Task<TModel> GetByIdAsync(object id)
     {
         var entity = await _dbSet.FindAsync(id);
@@ -94,18 +66,23 @@ public class GenericRepository<TModel, TEntity> : IGenericRepository<TModel>
         return _mapper.Map<TEntity>(model);
     }
 
-    private IQueryable<TModel> MapQuery(IQueryable<TEntity> query)
+    public async Task<Pagination<TModel>> ToPagination(int pageIndex = 0, int pageSize = 10)
     {
-        return query.Select(entity => _mapper.Map<TModel>(entity));
+        var itemCount = await _dbSet.CountAsync();
+        var items = await _dbSet
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync();
+        var result = new Pagination<TModel>()
+        {
+            PageIndex = pageIndex,
+            PageSize = pageSize,
+            TotalItemsCount = itemCount,
+            Items = _mapper.Map<List<TModel>>(items)
+        };
+
+        return result;
     }
 
-    private Expression<Func<TEntity, bool>> MapFilter(Expression<Func<TModel, bool>> filter)
-    {
-        if (filter == null) return null;
-
-        // Use AutoMapper to project the filter to TEntity
-        var parameter = Expression.Parameter(typeof(TEntity), "e");
-        var mappedBody = _mapper.Map<Expression<Func<TEntity, bool>>>(filter).Body;
-        return Expression.Lambda<Func<TEntity, bool>>(mappedBody, parameter);
-    }
 }

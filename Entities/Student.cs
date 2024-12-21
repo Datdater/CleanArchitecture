@@ -2,6 +2,8 @@
 
 public class Student
 {
-    public required Guid StudentId { get; set; }
-    public required string StudentName { get; set; }
+    public  int Id { get; set; }
+    public  string Name { get; set; }
+    public string? Address { get; set; }
+    public string? Phone { get; set; }
 }
