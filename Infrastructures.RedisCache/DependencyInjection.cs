@@ -1,7 +1,7 @@
 ﻿using Infrastructures.RedisCache.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
-using UseCase;
+using UseCases;
 
 namespace Infrastructures.RedisCache;
 

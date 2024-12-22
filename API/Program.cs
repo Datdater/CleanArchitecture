@@ -64,6 +64,7 @@ app.UseAuthorization();
 
 // Apply the custom middleware for refresh token validation
 app.UseMiddleware<RefreshTokenValidationMiddleware>();
-
+//
+app.UseMiddleware<ExceptionMiddleware>();
 // Start the application
 app.Run();

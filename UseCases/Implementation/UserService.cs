@@ -9,6 +9,7 @@ using UseCase;
 using UseCase.Commons;
 using UseCase.Utils;
 using UseCase.ViewModels.UserViewModels;
+using UseCases.Commons;
 using UseCases.UnitOfWork;
 
 namespace UseCases.Implementation;
@@ -47,7 +48,8 @@ public class UserService(IUnitOfWork unitOfWork, IMapper mapper, AppConfiguratio
 
     public async Task<bool> LogoutAsync(string userId)
     {
-        var user = await unitOfWork.UsersRepository.GetByIdAsync(int.Parse(userId));
+        var user = await unitOfWork.UsersRepository.GetByIdAsync(int.Parse(userId)) ?? throw new ValidationException("User not found");
+        
         var refreshToken = await cacheService.GetAsync<string>(user.Username);
         if (refreshToken == null)
         {

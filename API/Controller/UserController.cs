@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Controller;
+using API.Models;
 using AutoMapper;
 using Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -8,9 +9,8 @@ using UseCase.Commons;
 using UseCase.ViewModels.UserViewModels;
 using UseCases.UnitOfWork;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UserController(IUserService userService, IMapper mapper) 
+
+public class UserController(IUserService userService, IMapper mapper) : BaseController
 {
     [HttpPost("login")]
     public async Task<LoginResponse> Login([FromBody] LoginRequest loginRequest)

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using StackExchange.Redis;
-using UseCase;
+using UseCases;
 
 namespace Infrastructures.RedisCache.Implementation;
 

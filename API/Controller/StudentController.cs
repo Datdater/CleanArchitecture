@@ -10,9 +10,7 @@ using UseCases.UnitOfWork;
 
 namespace API.Controller;
 
-[Route("api/[controller]")]
-[ApiController]
-public class StudentController
+public class StudentController: BaseController
 {
     private readonly IManageStudent _manageStudent;
     private readonly IMapper _mapper;
