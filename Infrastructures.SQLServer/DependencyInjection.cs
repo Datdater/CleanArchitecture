@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UseCase.Repositories;
 using UseCases.GenericRepository;
+using UseCases.Repositories;
 using UseCases.UnitOfWork;
 
 namespace Infrastructures.SQLServer;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IGenericRepository<Student>, GenericRepository<Student, StudentEntity>>();
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         // ATTENTION: if you do migration please check file README.md
         services.AddDbContext<SchoolContext>(option => option.UseSqlServer(databaseConnection));

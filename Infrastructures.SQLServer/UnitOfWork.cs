@@ -3,6 +3,7 @@ using Infrastructures.SQLServer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using UseCase.Repositories;
 using UseCases.GenericRepository;
+using UseCases.Repositories;
 using UseCases.UnitOfWork;
 using Course = Entities.Course;
 using Student = Entities.Student;
@@ -15,12 +16,16 @@ public class UnitOfWork: IUnitOfWork
     private readonly IMapper _mapper;
 
     public IStudentRepository StudentsRepository { get; }
+    public IUserRepository UsersRepository { get; }
 
-    public UnitOfWork(SchoolContext context, IStudentRepository studentRepository, IMapper mapper)
+    public UnitOfWork(SchoolContext context, IStudentRepository studentRepository
+        , IUserRepository userRepository
+        , IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
         StudentsRepository = studentRepository;
+        UsersRepository = userRepository;
     }
 
 
