@@ -21,7 +21,6 @@ public class StudentController: BaseController
     }
     
     [HttpGet]
-    [Authorize]
     public async Task<Pagination<StudentModel>> GetAllStudents( [FromQuery]int pageIndex,[FromQuery] int pageSize)
     {
         var students = await _manageStudent.GetAllStudentsAsync(pageIndex, pageSize);

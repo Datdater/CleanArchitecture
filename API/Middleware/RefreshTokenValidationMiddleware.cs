@@ -16,7 +16,9 @@ public class RefreshTokenValidationMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         // Skip refresh token validation for logout route or any public route
-        if (context.Request.Path.StartsWithSegments("/api/user/logout") || context.Request.Path.StartsWithSegments("/api/user/login"))
+        if (context.Request.Path.StartsWithSegments("/api/user") ||
+            context.Request.Path.StartsWithSegments("/api/user") || 
+            context.Request.Path.StartsWithSegments("/api/student"))
         {
             await _next(context); // Skip validation for logout endpoint
             return;

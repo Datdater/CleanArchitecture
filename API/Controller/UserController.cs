@@ -12,14 +12,15 @@ using UseCases.UnitOfWork;
 
 public class UserController(IUserService userService, IMapper mapper) : BaseController
 {
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<LoginResponse> Login([FromBody] LoginRequest loginRequest)
     {
         var loginResponse = await userService.LoginAsync(loginRequest);
         return loginResponse;
     }
-    [HttpPost("logout")]
+    [HttpPost]
     public async Task<string> Logout([FromBody] LogoutRequest model)
+    
     {
         
         var result = await userService.LogoutAsync(model.UserId);
@@ -31,5 +32,11 @@ public class UserController(IUserService userService, IMapper mapper) : BaseCont
         {
             return "Logout failed";
         }
+    }
+
+    [HttpPost]
+    public async Task<TokenResponse> RefreshToken([FromBody] TokenRequest model)
+    {
+        return await userService.RefreshTokenAsync(model);
     }
 }

@@ -25,6 +25,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         var statusCode = exception switch
         {
             ValidationException => StatusCodes.Status400BadRequest,
+            UnAuthenticationException => StatusCodes.Status401Unauthorized,
             DomainException => StatusCodes.Status500InternalServerError,
             _ => StatusCodes.Status500InternalServerError,
         };

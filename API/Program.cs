@@ -38,7 +38,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -56,7 +64,7 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 // Enable CORS
-app.UseCors();
+app.UseCors("AllowAll");
 
 // Enable Authentication & Authorization
 app.UseAuthentication();
